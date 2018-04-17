@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="kw">
+        <createTable tableName="user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="user_name_uc" />
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints unique="true" uniqueConstraintName="user_email_uc"/>
+            </column>
+            <column name="password" type="varchar(64)">
+                <constraints nullable="false" />
+            </column>
+            <column name="locked" type="boolean" />
+        </createTable>
+
+        <createTable tableName="role">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)" >
+                <constraints nullable="false" unique="true" uniqueConstraintName="role_name_uc" />
+            </column>
+        </createTable>
+
+        <createTable tableName="privilege">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)" >
+                <constraints nullable="false" unique="true" uniqueConstraintName="privilege_name_uc" />
+            </column>
+            <column name="description" type="varchar(500)" />
+        </createTable>
+
+        <createTable tableName="user_role">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" references="user" referencedColumnNames="id"
+                             foreignKeyName="user_role_user_fk" />
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false" references="role" referencedColumnNames="id"
+                             foreignKeyName="user_role_role_fk"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="role_privilege">
+            <column name="role_id" type="bigint">
+                <constraints nullable="false" references="role" referencedColumnNames="id"
+                             foreignKeyName="role_privilege_role_fk" />
+            </column>
+            <column name="privilege_id" type="bigint">
+                <constraints nullable="false" references="privilege" referencedColumnNames="id"
+                foreignKeyName="role_privilege_privilege_fk" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="kw" >
+        <createTable tableName="scenario">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="varchar(500)"/>
+        </createTable>
+
+        <createTable tableName="character">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="varchar(500)" />
+            <column name="experience" type="int" />
+            <column name="scenario_id" type="bigint" >
+                <constraints references="scenario" referencedColumnNames="id" foreignKeyName="character_scenario_fk" />
+            </column>
+            <column name="user_id" type="bigint" >
+                <constraints references="user" referencedColumnNames="id" foreignKeyName="character_user_fk"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="trait">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="varchar(500)" />
+            <column name="cost" type="int" >
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
