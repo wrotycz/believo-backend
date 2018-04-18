@@ -29,7 +29,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ResourceServerConfiguration(@Qualifier("myUserDetailsService") UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public ResourceServerConfiguration(@Qualifier("myUserDetailsService") UserDetailsService userDetailsService,
+                                       PasswordEncoder passwordEncoder) {
         super();
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
