@@ -20,8 +20,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @Configuration
 @EnableResourceServer
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
-@ComponentScan({"pl.weglarz.believo.security"})
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;

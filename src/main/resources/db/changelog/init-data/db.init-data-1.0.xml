@@ -31,7 +31,13 @@
             <column name="name" value="CAN_ACCESS_ROLES"/>
             <column name="description" value="Can access and edit roles" />
         </insert>
+        <insert tableName="privilege">
+            <column name="id" value="3" />
+            <column name="name" value="CAN_ACCESS_DOMAIN"/>
+            <column name="description" value="Can access and edit domain entities" />
+        </insert>
 
+        <!--Add privileges to admin role-->
         <insert tableName="role_privilege">
             <column name="role_id" value="1" />
             <column name="privilege_id" value="1" />
@@ -39,6 +45,10 @@
         <insert tableName="role_privilege">
             <column name="role_id" value="1" />
             <column name="privilege_id" value="2" />
+        </insert>
+        <insert tableName="role_privilege">
+            <column name="role_id" value="1" />
+            <column name="privilege_id" value="3" />
         </insert>
 
         <insert tableName="user_role">
