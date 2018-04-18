@@ -8,7 +8,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="1" author="kw">
-        <createTable tableName="user">
+        <createTable tableName="app_user">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -45,7 +45,7 @@
 
         <createTable tableName="user_role">
             <column name="user_id" type="bigint">
-                <constraints nullable="false" references="user" referencedColumnNames="id"
+                <constraints nullable="false" references="app_user" referencedColumnNames="id"
                              foreignKeyName="user_role_user_fk" />
             </column>
             <column name="role_id" type="bigint">
@@ -90,7 +90,7 @@
                 <constraints references="scenario" referencedColumnNames="id" foreignKeyName="character_scenario_fk" />
             </column>
             <column name="user_id" type="bigint" >
-                <constraints references="user" referencedColumnNames="id" foreignKeyName="character_user_fk"/>
+                <constraints references="app_user" referencedColumnNames="id" foreignKeyName="character_user_fk"/>
             </column>
         </createTable>
 

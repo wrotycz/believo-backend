@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
@@ -36,12 +37,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("believojwtclient")
-                .secret("C1bGdUCxK5p3hG74")
+                .withClient("believo")
+                .secret("$2a$04$pLb3iJ.pTlKrXkScbzWcc.W7tmuf2HXnUldhTeVq0Bidp4bT2OF4K")
                 .authorizedGrantTypes("password")
                 .scopes("api")
                 .autoApprove("api")
                 .accessTokenValiditySeconds(3600);
     }
-
 }

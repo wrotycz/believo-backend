@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="kw">
+        <insert tableName="app_user">
+            <column name="id" value="1" />
+            <column name="name" value="admin" />
+            <column name="email" value="admin@master.pl" />
+            <column name="password" value="$2a$04$.2wFssoUs7bxX0rFg4Srn.Um6dJXdFsLzW6WVAs3bSrUJYJQyH/J2" />
+            <column name="locked" value="false" />
+        </insert>
+
+        <insert tableName="role">
+            <column name="id" value="1" />
+            <column name="name" value="ADMIN"/>
+        </insert>
+
+        <insert tableName="privilege">
+            <column name="id" value="1" />
+            <column name="name" value="CAN_ACCESS_PRIVILEGES" />
+            <column name="description" value="Can access and edit privileges" />
+        </insert>
+        <insert tableName="privilege">
+            <column name="id" value="2" />
+            <column name="name" value="CAN_ACCESS_ROLES"/>
+            <column name="description" value="Can access and edit roles" />
+        </insert>
+
+        <insert tableName="role_privilege">
+            <column name="role_id" value="1" />
+            <column name="privilege_id" value="1" />
+        </insert>
+        <insert tableName="role_privilege">
+            <column name="role_id" value="1" />
+            <column name="privilege_id" value="2" />
+        </insert>
+
+        <insert tableName="user_role">
+            <column name="user_id" value="1" />
+            <column name="role_id" value="1" />
+        </insert>
+    </changeSet>
+</databaseChangeLog>

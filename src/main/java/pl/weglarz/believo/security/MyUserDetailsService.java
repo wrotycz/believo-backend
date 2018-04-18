@@ -1,5 +1,6 @@
 package pl.weglarz.believo.security;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -9,8 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import pl.weglarz.believo.model.entities.Privilege;
 import pl.weglarz.believo.model.entities.Role;
-import pl.weglarz.believo.model.entities.User;
-import pl.weglarz.believo.repository.UserRepository;
+import pl.weglarz.believo.service.UserService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,12 +22,12 @@ import java.util.Set;
 @Component
 public final class MyUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public MyUserDetailsService(UserRepository userRepository) {
+    public MyUserDetailsService(UserService userService) {
         super();
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     /**
@@ -39,11 +39,12 @@ public final class MyUserDetailsService implements UserDetailsService {
             throw new NullPointerException();
         }
 
-        final User user = userRepository.findByName(username);
-        if (user == null) {
+        val userOptional = userService.findByUsername(username);
+        if (!userOptional.isPresent()) {
             throw new UsernameNotFoundException("Username was not found: " + username);
         }
 
+        val user = userOptional.get();
         final Set<Role> rolesOfUser = user.getRoles();
         final Set<Privilege> privileges = new HashSet<>();
         for (final Role roleOfUser : rolesOfUser) {

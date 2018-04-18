@@ -17,10 +17,6 @@ public class Privilege implements IEntity {
 
     private String description;
 
-    public Privilege(final String nameToSet) {
-        super();
-        name = nameToSet;
-    }
     @Override
     public int hashCode() {
         final int prime = 31;

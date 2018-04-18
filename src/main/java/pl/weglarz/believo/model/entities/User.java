@@ -1,15 +1,18 @@
 package pl.weglarz.believo.model.entities;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "app_user")
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements IEntity {
 
     @Id

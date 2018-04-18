@@ -10,6 +10,8 @@ import pl.weglarz.believo.repository.RoleRepository;
 import pl.weglarz.believo.repository.UserRepository;
 import pl.weglarz.believo.service.UserService;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -29,14 +31,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findByUsername(String username) {
+        return Optional.ofNullable(userRepository.findByName(username));
+    }
+
+    @Override
     public User registerNewUserAccount(UserDto accountDto) {
-        val user = User.builder()
-                .name(accountDto.getName())
-                .password(passwordEncoder.encode(accountDto.getPassword()))
-                .email(accountDto.getEmail())
-                .locked(false)
-                .roles(roleRepository.findByNameIn(accountDto.getRoles()))
-                .build();
+        val user = new User(null, accountDto.getName(), accountDto.getEmail(),
+                passwordEncoder.encode(accountDto.getPassword()), accountDto.isLocked(),
+                roleRepository.findByNameIn(accountDto.getRoles()));
         return userRepository.save(user);
     }
 }

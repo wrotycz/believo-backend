@@ -1,6 +1,7 @@
 package pl.weglarz.believo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -21,32 +21,27 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @EnableResourceServer
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-@ComponentScan({ "pl.weglarz.believo.security" })
+@ComponentScan({"pl.weglarz.believo.security"})
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ResourceServerConfiguration(UserDetailsService userDetailsService,
-                                       AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public ResourceServerConfiguration(@Qualifier("myUserDetailsService") UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         super();
         this.userDetailsService = userDetailsService;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // global security concerns
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public AuthenticationProvider authProvider() {
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
 
@@ -60,10 +55,10 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Override
     public void configure(final HttpSecurity http) throws Exception {
         http.
-        authorizeRequests().
-        anyRequest().authenticated().and().
-        sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
-        csrf().disable();
+                authorizeRequests().
+                anyRequest().authenticated().and().
+                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
+                csrf().disable();
     }
 
 }

@@ -23,17 +23,6 @@ public class Role implements IEntity {
     @RestResource
     private Set<Privilege> privileges;
 
-    public Role(final String nameToSet) {
-        super();
-        name = nameToSet;
-    }
-
-    public Role(final String nameToSet, final Set<Privilege> privilegesToSet) {
-        super();
-        name = nameToSet;
-        privileges = privilegesToSet;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
