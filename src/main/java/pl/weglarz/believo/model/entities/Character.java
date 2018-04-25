@@ -22,6 +22,8 @@ public class Character implements IEntity {
     @NotNull
     private Integer experience;
 
+    private String player;
+
     @RestResource
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "scenario_id")
