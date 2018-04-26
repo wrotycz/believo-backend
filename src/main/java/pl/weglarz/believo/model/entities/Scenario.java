@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"hibernateLazyInitializer", "handler"})
 @Data
 public class Scenario implements IEntity {
 
